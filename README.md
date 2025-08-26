@@ -17,9 +17,7 @@
 
 ```bash
 # Clona el repositorio
-git clone https://github.com/tuusuario/multi-encriptador.git
+git clone https://github.com/Mik0-T3ch/Crypto
 
 # Ejecuta el script
-python encriptador.py
-```
-<!-- chupalo cris!! -->
+python encriptado.py
