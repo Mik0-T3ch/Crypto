@@ -22,3 +22,4 @@ git clone https://github.com/tuusuario/multi-encriptador.git
 # Ejecuta el script
 python encriptador.py
 ```
+<!-- chupalo cris!! -->
