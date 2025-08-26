@@ -6,12 +6,12 @@ from unittest import result
 def rot13(texto):
     return codecs.encode(texto, 'rot_13')
 
-def caesar(texto, desplazamiento=3):
+def caesar(texto, desplazar=3):
     resultado = ""
     for caracter in texto:
         if caracter.isalpha():
             base = ord('A') if caracter.isupper() else ord('a')
-            resultado += chr((ord(caracter) - base + desplazamiento) % 26 + base)
+            resultado += chr((ord(caracter) - base + desplazar) % 26 + base)
         else:
             resultado += caracter
     return resultado
@@ -51,8 +51,8 @@ print("7. Caesar + Base64")
 mensaje = input("\nIngresa el texto: ")
 opcion = input("Elige una opción: ")
 
-print("\nResultado:", result)
-input("\nPresiona Enter para salir...")
-
 resultado = encriptar(mensaje, opcion)
 print("\nResultado:", resultado)
+
+print("\nResultado:", result)
+input("\nPresiona Enter para salir...")
