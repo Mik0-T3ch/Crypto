@@ -39,7 +39,9 @@ EXPLICACION = {
     'U': 'Uva', 'V': 'Vaca', 'W': 'Wifi', 'X': 'Xilófono', 'Y': 'Yate', 'Z': 'Zorro'
 }
 
-def morse_diccionario():
+# ------------------- FUNCIONES ESPECIALES -------------------
+
+def morse_diccionario_y_texto():
     # Historia detallada
     contenido = "--- Historia del Código Morse ---\n\n"
     contenido += (
@@ -50,23 +52,42 @@ def morse_diccionario():
         "y fue un estándar de comunicación hasta la llegada de tecnologías modernas.\n\n"
     )
 
-    # Diccionario en varias columnas para mejor visualización
+    # Diccionario en varias columnas
     contenido += "--- Diccionario Morse Educativo ---\n\n"
     filas = []
     for letra in sorted(MORSE.keys()):
         palabra = EXPLICACION.get(letra, '')
         codigo = MORSE[letra]
         filas.append(f"{letra} = {palabra:<10} Morse: {codigo}")
-
-    # Agrupar en 2 o 3 columnas por línea
     columnas = 3
     for i in range(0, len(filas), columnas):
         contenido += " | ".join(filas[i:i+columnas]) + "\n"
 
     contenido += "\nExplicación: Cada letra tiene un código único de puntos (.) y rayas (-).\n"
-    contenido += "Los espacios entre letras se representan con un espacio y entre palabras con '/'.\n"
+    contenido += "Los espacios entre letras se representan con un espacio y entre palabras con '/'.\n\n"
 
+    # Pedir texto para convertir
+    texto_usuario = input("Ingresa el texto que deseas convertir a Morse: ")
+    contenido += "--- Texto convertido a Morse ---\n\n"
+    morse_texto = []
+    for c in texto_usuario.upper():
+        if c == " ":
+            morse_texto.append("/")
+        elif c in MORSE:
+            morse_texto.append(f"{c}={EXPLICACION.get(c,'')} -> {MORSE[c]}")
+        else:
+            morse_texto.append(f"{c} -> ?")
+    # Aplicamos color verde a todo el resultado
+    contenido += "\033[92m" + "\n".join(morse_texto) + "\033[0m"
     return contenido
+
+def encriptar_con_color(func, texto=None):
+    """Encripta texto y devuelve en verde"""
+    if texto:
+        resultado = func(texto)
+    else:
+        resultado = func()
+    return f"\033[92m{resultado}\033[0m"
 
 # ------------------- DICCIONARIO DE OPCIONES -------------------
 opciones = {
@@ -77,7 +98,7 @@ opciones = {
     "5": lambda texto: caesar(rot13(texto)),
     "6": lambda texto: rot13(base64_encode(texto)),
     "7": lambda texto: base64_encode(caesar(texto)),
-    "8": morse_diccionario
+    "8": morse_diccionario_y_texto
 }
 
 # ------------------- PROGRAMA -------------------
@@ -89,14 +110,19 @@ print("4. ROT13 + Caesar + Base64")
 print("5. ROT13 + Caesar")
 print("6. Base64 + ROT13")
 print("7. Caesar + Base64")
-print("8. Morse (diccionario completo)")
+print("8. Morse")
 
 opcion = input("\nElige una opción: ")
 
 if opcion in opciones:
-    resultado = opciones[opcion]()  # si es Morse, retorna toda la info
-    print("\n" + resultado)  # se muestra todo junto
+    if opcion in ["1","2","3","4","5","6","7"]:
+        texto = input("Ingresa el texto a encriptar: ")
+        resultado = encriptar_con_color(opciones[opcion], texto)
+    else:  # Opción 8
+        resultado = opciones[opcion]()
+    print("\n" + resultado)
 else:
     print("Opción no válida")
 
 input("\nPresiona Enter para salir...")
+
