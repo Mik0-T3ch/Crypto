@@ -13,7 +13,7 @@
 - 🔐 **Morse** - Representación de letras y números mediante señales emitidas de forma intermitente
 - 🎯 **Combinaciones múltiples** - 7 modos de encriptación diferentes
 - 🐍 **Python puro** - Sin dependencias externas
-- 
+  
 ## 🚀 Como Usar
 
 ```bash
