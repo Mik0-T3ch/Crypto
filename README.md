@@ -10,9 +10,10 @@
 - 🔄 **ROT13** - Cifrado por desplazamiento de 13 posiciones
 - 🏛️ **Cifrado César** - Algoritmo clásico con desplazamiento personalizable
 - 📜 **Base64** - Codificación estándar para datos binarios
+- 🔐 **Morse** - Representación de letras y números mediante señales emitidas de forma intermitente
 - 🎯 **Combinaciones múltiples** - 7 modos de encriptación diferentes
 - 🐍 **Python puro** - Sin dependencias externas
-
+- 
 ## 🚀 Como Usar
 
 ```bash
