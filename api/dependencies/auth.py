@@ -1,7 +1,4 @@
-from fastapi import Header, HTTPException
+from core.security.api_key import verify_api_key
 
-API_KEY = "vault-secret"
-
-def verify_api_key(x_api_key: str = Header(...)):
-    if x_api_key != API_KEY:
-        raise HTTPException(status_code=401, detail="Unauthorized")
+def auth_dependency(api_key: str):
+    verify_api_key(api_key)
