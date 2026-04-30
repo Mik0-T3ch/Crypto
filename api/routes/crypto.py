@@ -2,13 +2,14 @@ from fastapi import APIRouter, HTTPException, Depends
 from core.registry import manager
 from api.schemas import EncryptRequest, DecryptRequest
 from api.dependencies.auth import verify_api_key
-from core.hashing.password import hash_password, verify_password
-from api.schemas import PasswordHashRequest, PasswordVerifyRequest
 
-router = APIRouter()
+router = APIRouter(
+    prefix="/crypto",
+    tags=["crypto"],
+    dependencies=[Depends(verify_api_key)]
+)
 
-
-@router.post("/encrypt", dependencies=[Depends(verify_api_key)])
+@router.post("/encrypt")
 def encrypt(data: EncryptRequest):
     category = manager.categories.get(data.method)
 
@@ -25,7 +26,7 @@ def encrypt(data: EncryptRequest):
         raise HTTPException(status_code=500, detail="Error al encriptar")
 
 
-@router.post("/decrypt", dependencies=[Depends(verify_api_key)])
+@router.post("/decrypt")
 def decrypt(data: DecryptRequest):
     category = manager.categories.get(data.method)
 
@@ -40,18 +41,3 @@ def decrypt(data: DecryptRequest):
         return {"result": result}
     except Exception:
         raise HTTPException(status_code=500, detail="Error al desencriptar")
-
-
-@router.get("/methods")
-def methods():
-    return manager.list_methods()
-
-@router.post("/password/hash")
-def password_hash(data: PasswordHashRequest):
-    hashed = hash_password(data.password)
-    return {"hash": hashed}
-
-@router.post("/password/verify")
-def password_verify(data: PasswordVerifyRequest):
-    valid = verify_password(data.password, data.hashed)
-    return {"valid": valid}
