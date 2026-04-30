@@ -1,5 +1,6 @@
 from core.caesar import CaesarCipher
 from core.base64_cipher import Base64Cipher
+from core.aes_cipher import AESCipher
 
 class CipherManager:
 
@@ -22,3 +23,4 @@ class CipherManager:
 manager = CipherManager()
 manager.register("caesar", CaesarCipher(3))
 manager.register("base64", Base64Cipher())
+manager.register("aes", AESCipher())
