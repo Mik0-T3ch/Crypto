@@ -1,16 +1,10 @@
 from pydantic import BaseModel
+from typing import Union, Dict
 
 class EncryptRequest(BaseModel):
     text: str
     method: str
 
 class DecryptRequest(BaseModel):
-    text: str
+    text: Union[str, Dict]
     method: str
-
-class HashRequest(BaseModel):
-    text: str
-
-class VerifyRequest(BaseModel):
-    text: str
-    hash: str
