@@ -8,3 +8,11 @@ class EncryptRequest(BaseModel):
 class DecryptRequest(BaseModel):
     text: Union[str, Dict]
     method: str
+
+class PasswordHashRequest(BaseModel):
+    password: str
+
+
+class PasswordVerifyRequest(BaseModel):
+    password: str
+    hashed: str

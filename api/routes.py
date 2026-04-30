@@ -2,6 +2,8 @@ from fastapi import APIRouter, HTTPException, Depends
 from core.registry import manager
 from api.schemas import EncryptRequest, DecryptRequest
 from api.dependencies.auth import verify_api_key
+from core.hashing.password import hash_password, verify_password
+from api.schemas import PasswordHashRequest, PasswordVerifyRequest
 
 router = APIRouter()
 
@@ -43,3 +45,13 @@ def decrypt(data: DecryptRequest):
 @router.get("/methods")
 def methods():
     return manager.list_methods()
+
+@router.post("/password/hash")
+def password_hash(data: PasswordHashRequest):
+    hashed = hash_password(data.password)
+    return {"hash": hashed}
+
+@router.post("/password/verify")
+def password_verify(data: PasswordVerifyRequest):
+    valid = verify_password(data.password, data.hashed)
+    return {"valid": valid}
