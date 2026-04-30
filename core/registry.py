@@ -1,6 +1,6 @@
-from core.caesar import CaesarCipher
-from core.base64_cipher import Base64Cipher
-from core.aes_cipher import AESCipher
+from core.educational.caesar import CaesarCipher
+from core.encoding.base64 import Base64Cipher
+from core.crypto.aes_gcm import AESCipher
 
 class CipherManager:
 
