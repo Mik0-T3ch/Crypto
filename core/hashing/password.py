@@ -1,16 +1,11 @@
-from fastapi import APIRouter, Depends
-from core.hashing.password import hash_password, verify_password
-from api.schemas import PasswordHashRequest, PasswordVerifyRequest
-from api.dependencies.auth import verify_api_key
-
-router = APIRouter()
+import bcrypt
 
 
-@router.post("/password/hash", dependencies=[Depends(verify_api_key)])
-def password_hash(data: PasswordHashRequest):
-    return {"hash": hash_password(data.password)}
+def hash_password(password: str) -> str:
+    salt = bcrypt.gensalt()
+    hashed = bcrypt.hashpw(password.encode(), salt)
+    return hashed.decode()
 
 
-@router.post("/password/verify", dependencies=[Depends(verify_api_key)])
-def password_verify(data: PasswordVerifyRequest):
-    return {"valid": verify_password(data.password, data.hashed)}
+def verify_password(password: str, hashed: str) -> bool:
+    return bcrypt.checkpw(password.encode(), hashed.encode())
