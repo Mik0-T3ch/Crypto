@@ -28,7 +28,6 @@ y consistente en múltiples proyectos.
   <li>Aplicaciones web</li>
   <li>Microservicios</li>
   <li>Bots</li>
-  <li>Herramientas OSINT</li>
   <li>Sistemas internos</li>
 </ul>
 
