@@ -21,8 +21,8 @@ class CipherManager:
 
     def list_methods(self):
         return [
-            {"name": name, "category": self.categories[name]}
-            for name in self.ciphers
+            name for name, category in self.categories.items()
+            if category == "secure"
         ]
 
 
