@@ -6,6 +6,7 @@ router = APIRouter(
     tags=["utils"]
 )
 
+
 @router.get("/methods")
 def methods():
     return manager.list_methods()
