@@ -3,6 +3,7 @@ import pytest
 
 cipher = AESCipher()
 
+
 def test_encrypt_decrypt():
     data = "hola mundo"
     encrypted = cipher.encrypt(data)
@@ -24,7 +25,7 @@ def test_empty_string():
 
 def test_multiple_encryptions():
     data = "same text"
-    
+
     e1 = cipher.encrypt(data)
     e2 = cipher.encrypt(data)
 
