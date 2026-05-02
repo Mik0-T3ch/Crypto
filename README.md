@@ -3,19 +3,11 @@
 
 <p align="center">
 API backend en Python para cifrado, hashing y validación de datos.<br>
-Diseñada como un motor reutilizable de seguridad para aplicaciones, bots, herramientas OSINT y servicios backend.
+Diseñada como un núcleo reutilizable de seguridad para aplicaciones, bots y servicios backend.
 </p>
 
 <p align="center">
-  <img src="https://skillicons.dev/icons?i=python,fastapi,docker,linux,git,github&perline=6" />
-</p>
-
-<hr>
-
-<h2>📊 Estadísticas del Proyecto</h2>
-
-<p align="center">
-  <img src="https://github-readme-stats.vercel.app/api/pin/?username=Mik0-T3ch&repo=VaultAPI&theme=tokyonight" />
+  <img src="https://skillicons.dev/icons?i=python,fastapi,linux,git,github&perline=6" />
 </p>
 
 <hr>
@@ -28,8 +20,8 @@ hashing de contraseñas y validación de datos.
 </p>
 
 <p>
-El objetivo principal es desacoplar la lógica de seguridad del resto de la aplicación,
-permitiendo reutilizar un núcleo robusto y consistente en múltiples proyectos.
+Su objetivo es desacoplar la lógica criptográfica del resto del sistema, permitiendo reutilizar un núcleo seguro
+y consistente en múltiples proyectos.
 </p>
 
 <ul>
@@ -45,99 +37,68 @@ permitiendo reutilizar un núcleo robusto y consistente en múltiples proyectos.
 <h2>🚀 Características</h2>
 
 <ul>
-  <li>🔐 Cifrado con AES-GCM (autenticado y moderno)</li>
+  <li>🔐 Cifrado moderno con AES-GCM</li>
   <li>🔑 Hashing seguro con bcrypt</li>
   <li>🧠 Arquitectura modular desacoplada</li>
-  <li>🚫 Bloqueo de algoritmos inseguros en producción</li>
-  <li>🔐 Sistema de autenticación basado en API Keys</li>
+  <li>🚫 Bloqueo de algoritmos inseguros</li>
+  <li>🔐 Autenticación mediante API Key</li>
   <li>🧪 Tests automatizados con pytest</li>
-  <li>📊 Logging básico para auditoría</li>
-  <li>📦 Diseño listo para integración en otros sistemas</li>
+  <li>📦 Diseño listo para integración</li>
 </ul>
 
 <hr>
 
-<h2>🧱 Arquitectura del Proyecto</h2>
+<h2>🧱 Arquitectura</h2>
 
 <pre>
 VaultAPI/
 │
-├── api/                # Capa de entrada (HTTP)
+├── api/                # Capa HTTP
 │   ├── routes/         # Endpoints
-│   ├── schemas/        # Validación de datos
-│   └── dependencies/   # Seguridad y middlewares
+│   ├── schemas.py      # Validación de datos
+│   └── dependencies/   # Seguridad
 │
-├── core/               # Motor interno
+├── core/               # Lógica interna
 │   ├── crypto/         # AES-GCM
 │   ├── hashing/        # bcrypt
-│   ├── encoding/       # utilidades base64
-│   ├── educational/    # algoritmos inseguros
-│   ├── security/       # API Keys / Key Manager
-│   ├── logging/        # sistema de logs
+│   ├── encoding/       # base64
+│   ├── educational/    # cifrados inseguros
+│   ├── security/       # API keys / keys
 │   └── registry.py     # control de algoritmos
 │
-├── tests/              # pruebas automatizadas
-└── main.py             # entrada principal
+├── tests/              # pruebas
+└── requirements.txt
 </pre>
 
 <hr>
 
-<h2>🔐 Seguridad</h2>
+<h2>⚙️ Instalación</h2>
 
-<h3>AES-GCM</h3>
-<ul>
-  <li>Cifrado autenticado (confidencialidad + integridad)</li>
-  <li>Protección contra manipulación de datos</li>
-  <li>Nonce aleatorio por operación</li>
-  <li>Uso de claves externas seguras</li>
-</ul>
+<pre>
+git clone https://github.com/Mik0-T3ch/VaultAPI.git
+cd VaultAPI
 
-<h3>bcrypt</h3>
-<ul>
-  <li>Hashing no reversible</li>
-  <li>Salt automático incluido</li>
-  <li>Resistente a ataques de fuerza bruta</li>
-</ul>
+python -m venv venv
+venv\Scripts\activate
 
-<h3>Gestión de claves</h3>
-<ul>
-  <li>Uso de variables de entorno</li>
-  <li>Separación entre código y secretos</li>
-  <li>Evita exposición accidental de credenciales</li>
-</ul>
+pip install -r requirements.txt
+</pre>
 
 <hr>
 
-<h2>⚠️ Algoritmos inseguros</h2>
+<h2>🔐 Configuración</h2>
 
-<p>
-Los siguientes algoritmos están incluidos únicamente con fines educativos:
-</p>
+<h3>Generar MASTER_KEY</h3>
 
 <pre>
-Caesar Cipher
-ROT13
+python -c "import os,base64; print(base64.urlsafe_b64encode(os.urandom(32)).decode())"
 </pre>
 
-<p>
-No están disponibles en producción y son bloqueados por el sistema.
-</p>
-
-<hr>
-
-<h2>🔑 Configuración</h2>
-
-<h3>1. Generar clave AES</h3>
+<h3>Crear archivo .env</h3>
 
 <pre>
-python -c "import os,base64; print(base64.b64encode(os.urandom(32)).decode())"
-</pre>
-
-<h3>2. Configurar variables de entorno</h3>
-
-<pre>
-setx VAULT_MASTER_KEY "TU_KEY"
-setx VAULT_API_KEYS "key1,key2,key3"
+API_KEY=tu_api_key
+MASTER_KEY=tu_master_key
 </pre>
 
 <hr>
@@ -145,31 +106,41 @@ setx VAULT_API_KEYS "key1,key2,key3"
 <h2>▶️ Ejecución</h2>
 
 <pre>
-uvicorn main:app --reload
+uvicorn api.main:app --reload
 </pre>
 
 <hr>
 
-<h2>📡 Endpoints</h2>
+<h2>📡 Uso de la API</h2>
 
-<h3>🔐 Cifrado</h3>
+<h3>🔐 Encrypt</h3>
+
 <pre>
-POST /api/v1/crypto/encrypt
+curl -X POST http://127.0.0.1:8000/crypto/encrypt ^
+-H "Content-Type: application/json" ^
+-H "x-api-key: TU_API_KEY" ^
+-d "{\"text\":\"hola\",\"method\":\"aes\"}"
 </pre>
 
-<h3>🔓 Descifrado</h3>
+<h3>🔓 Decrypt</h3>
+
 <pre>
-POST /api/v1/crypto/decrypt
+curl -X POST http://127.0.0.1:8000/crypto/decrypt ^
+-H "Content-Type: application/json" ^
+-H "x-api-key: TU_API_KEY" ^
+-d "{\"text\":\"TOKEN\",\"method\":\"aes\"}"
 </pre>
 
-<h3>🔑 Hash de contraseña</h3>
+<h3>🔑 Password Hash</h3>
+
 <pre>
-POST /api/v1/password/hash
+POST /password/hash
 </pre>
 
-<h3>✅ Verificación de contraseña</h3>
+<h3>✅ Password Verify</h3>
+
 <pre>
-POST /api/v1/password/verify
+POST /password/verify
 </pre>
 
 <hr>
@@ -182,14 +153,23 @@ pytest
 
 <hr>
 
-<h2>📊 Logging</h2>
+<h2>🔐 Seguridad</h2>
 
-<p>El sistema incluye logging básico para auditoría de eventos:</p>
+<ul>
+  <li>AES-GCM con nonce aleatorio por operación</li>
+  <li>Integridad y confidencialidad garantizadas</li>
+  <li>bcrypt con salt automático</li>
+  <li>Separación de claves mediante variables de entorno</li>
+</ul>
 
-<pre>
-Encrypt endpoint called
-Decryption request executed
-</pre>
+<hr>
+
+<h2>⚠️ Algoritmos educativos</h2>
+
+<p>
+Los algoritmos como Caesar y ROT13 están incluidos únicamente con fines educativos
+y no pueden utilizarse en los endpoints seguros.
+</p>
 
 <hr>
 
@@ -204,9 +184,9 @@ Cliente → API → Registry → Algoritmo → Resultado
 <h2>🚀 Futuro</h2>
 
 <ul>
-  <li>🔁 Rotación de claves automática</li>
-  <li>🔐 Soporte para Argon2</li>
-  <li>🚫 Rate limiting</li>
-  <li>🧠 Sistema de roles y permisos</li>
-  <li>📊 Auditoría avanzada</li>
+  <li>Rate limiting</li>
+  <li>Logging estructurado</li>
+  <li>Versionado de API</li>
+  <li>Rotación de claves</li>
+  <li>Soporte para Argon2</li>
 </ul>
