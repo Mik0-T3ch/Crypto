@@ -7,6 +7,7 @@ router = APIRouter(
     tags=["password"]
 )
 
+
 @router.post("/hash")
 def password_hash(data: PasswordHashRequest):
     return {"hash": hash_password(data.password)}
