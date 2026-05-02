@@ -1,25 +1,25 @@
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+import os
 import base64
 from core.security.key_manager import get_master_key
 
-def decrypt(token: str) -> str:
-    key = get_master_key()
-    aesgcm = AESGCM(key)
 
-    try:
+class AESCipher:
+    def __init__(self):
+        self.key = get_master_key()
+        self.aesgcm = AESGCM(self.key)
+
+    def encrypt(self, text: str) -> str:
+        nonce = os.urandom(12)
+        ciphertext = self.aesgcm.encrypt(nonce, text.encode(), None)
+        token = base64.urlsafe_b64encode(nonce + ciphertext).decode()
+        return token
+
+    def decrypt(self, token: str) -> str:
         decoded = base64.urlsafe_b64decode(token)
-    except Exception:
-        raise ValueError("Invalid or corrupted token")
 
-    if len(decoded) < 12:
-        raise ValueError("Invalid or corrupted token")
+        nonce = decoded[:12]
+        ciphertext = decoded[12:]
 
-    nonce = decoded[:12]
-    ciphertext = decoded[12:]
-
-    try:
-        decrypted = aesgcm.decrypt(nonce, ciphertext, None)
-    except Exception:
-        raise ValueError("Invalid or corrupted token")
-
-    return decrypted.decode()
+        plaintext = self.aesgcm.decrypt(nonce, ciphertext, None)
+        return plaintext.decode()
